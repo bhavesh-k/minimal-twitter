@@ -78,16 +78,29 @@ chrome.storage.sync.get(
       `);
     }
 
-    // hide retweets (quite janky I know)
+    // 1. hide retweets (quite janky I know)
+    // 2. hide comments (equally janky)
     setInterval(() => {
-      tweetCollection = document.getElementsByTagName('article');
-      tweets = Array.from(tweetCollection);
-      tweets.forEach(tweet => {
-        first_span_elem = tweet.querySelector('* span');
-        if (first_span_elem.textContent.endsWith('Retweeted')) {
+      // 1.
+      if (window.location.href.indexOf("status") == -1) {
+        tweet_collection = document.getElementsByTagName('article');
+        tweets = Array.from(tweet_collection);
+        tweets.forEach(tweet => {
+          first_span_elem = tweet.querySelector('* span');
+          if (first_span_elem.textContent.endsWith('Retweeted')) {
+            tweet.style.setProperty('display', 'none');
+          }
+        });
+
+      // 2.
+      } else {
+        tweet_collection = document.querySelectorAll('div[data-testid="tweet"]');
+        tweets = Array.from(tweet_collection);
+        tweets.shift(); // remove the actual tweet, i.e. the first element in the array
+        tweets.forEach(tweet => {
           tweet.style.setProperty('display', 'none');
-        }
-      });
+        });
+      }
     }, 500);
 
     if (items.showLatest === true) {
