@@ -78,6 +78,18 @@ chrome.storage.sync.get(
       `);
     }
 
+    // hide retweets (quite janky I know)
+    setInterval(() => {
+      tweetCollection = document.getElementsByTagName('article');
+      tweets = Array.from(tweetCollection);
+      tweets.forEach(tweet => {
+        first_span_elem = tweet.querySelector('* span');
+        if (first_span_elem.textContent.endsWith('Retweeted')) {
+          tweet.style.setProperty('display', 'none');
+        }
+      });
+    }, 500);
+
     if (items.showLatest === true) {
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", showLatestTweets);
