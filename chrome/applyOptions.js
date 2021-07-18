@@ -96,7 +96,7 @@ chrome.storage.sync.get(
       } else {
         tweet_collection = document.querySelectorAll('div[data-testid="tweet"]');
         tweets = Array.from(tweet_collection);
-        tweets.shift(); // remove the actual tweet, i.e. the first element in the array
+        tweets.shift(); // don't operate on the actual tweet, i.e. the first element in the array
         tweets.forEach(tweet => {
           tweet.style.setProperty('display', 'none');
         });
